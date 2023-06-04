@@ -1,9 +1,18 @@
+import React from "react"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
+import Login from "./pages/Login"
+import Registration from "./pages/Registration"
+import { Button } from 'antd'
 function App() {
   return (
-    <div className="App">
-      <h1>HEALTY</h1>
-    </div>
-  );
+    <BrowserRouter>
+      <Routes>
+        <Route path='/login' element={<Login />}/>
+        <Route path='/registration' element={<Registration />}/>
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
