@@ -18,6 +18,8 @@
   "homepage": "https://github.com/gergana202000/TUGraduationProject#readme",
   "dependencies": {
     "antd": "^5.5.2",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.1.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
