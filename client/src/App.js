@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import ApplyDoctor from "./pages/ApplyDoctor"
+import UserList from "./pages/Admin/UserList"
+import DoctorList from "./pages/Admin/DoctorList"
 import Home from "./pages/Home"
 import { Button } from 'antd'
 import { Toaster } from "react-hot-toast"
@@ -29,6 +31,8 @@ function App() {
         <Route path='/' element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path='/apply-doctor' element={<PublicRoute><ApplyDoctor /></PublicRoute>} />
         <Route path='/notifications' element={<PublicRoute><Notifications /></PublicRoute>} />
+        <Route path='/admin/userlist' element={<PublicRoute><UserList /></PublicRoute>} />
+        <Route path='/admin/doctorlist' element={<PublicRoute><DoctorList /></PublicRoute>} />
       </Routes>
     </BrowserRouter>
   )

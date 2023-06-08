@@ -41,12 +41,12 @@ function Layout({ children }) {
         },
         {
             menuName: "Users",
-            path: "/users",
+            path: "/admin/userlist",
             menuIcon: "ri-file-list-3-line"
         },
         {
             menuName: "Doctors",
-            path: "/doctors",
+            path: "/admin/doctorlist",
             menuIcon: "ri-nurse-line"
         },
         {

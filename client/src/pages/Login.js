@@ -40,7 +40,7 @@ function Login() {
                     <Form.Item label="Password" name="password">
                         <Input placeholder="Password" type="password" />
                     </Form.Item>
-                    <Button className='primary-button my-2' htmlType='sumbit'>LOGIN</Button>
+                    <Button className='primary-button my-2 full-width-button' htmlType='sumbit'>LOGIN</Button>
 
                     <Link to="/registration" className='anchor mt-2'>SIGN UP</Link>
                 </Form>

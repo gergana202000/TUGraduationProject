@@ -1,7 +1,7 @@
 import { Button, Form, Input } from 'antd'
 import React from "react"
 import { Link, useNavigate } from 'react-router-dom'
-import {useDispatch} from "react-redux"
+import { useDispatch } from "react-redux"
 import axios from "axios"
 import toast from "react-hot-toast"
 import { hideLoading, showLoading } from '../redux/alertsSlice'
@@ -45,7 +45,7 @@ function Registration() {
                     {/* <Form.Item label="Confirm Password" name="passwordConf">
                         <Input placeholder="Confirm Password" type="password" />
                     </Form.Item> */}
-                    <Button className='primary-button my-2' htmlType='sumbit'>REGISTRATION</Button>
+                    <Button className='primary-button my-2 full-width-button' htmlType='sumbit'>REGISTRATION</Button>
 
                     <Link to="/login" className='anchor mt-2'>SIGN IN</Link>
                 </Form>

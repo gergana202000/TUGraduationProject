@@ -88,6 +88,10 @@
   width: max-content !important;
 }
 
+.full-width-button{
+  width: 100% !important;
+}
+
 .anchor{
   color: black !important;
   text-decoration: underline;
