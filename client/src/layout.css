@@ -8,6 +8,12 @@
     font-weight: bold;
 }
 
+.role{
+    color: #ede8fa;
+    font-size: 14px;
+    margin-top: -20px;
+}
+
 .sidebar {
     background-color: #AA96DA !important;
     border-radius: 5px;

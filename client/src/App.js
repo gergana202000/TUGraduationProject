@@ -13,6 +13,8 @@ import { useSelector } from "react-redux"
 import ProtectedRoute from "./components/ProtectedRoute"
 import PublicRoute from "./components/PublicRoute"
 import Notifications from "./pages/Notifications"
+import DoctorProfile from "./pages/Doctor/DoctorProfile"
+import BookAppointment from "./pages/BookAppointment"
 function App() {
   const {loading} = useSelector(state => state.alerts)
   return (
@@ -33,6 +35,8 @@ function App() {
         <Route path='/notifications' element={<PublicRoute><Notifications /></PublicRoute>} />
         <Route path='/admin/userlist' element={<PublicRoute><UserList /></PublicRoute>} />
         <Route path='/admin/doctorlist' element={<PublicRoute><DoctorList /></PublicRoute>} />
+        <Route path='/doctor/doctorprofile/:userId' element={<PublicRoute><DoctorProfile /></PublicRoute>} />
+        <Route path='/book-appointment/:doctorId' element={<PublicRoute><BookAppointment /></PublicRoute>} />
       </Routes>
     </BrowserRouter>
   )

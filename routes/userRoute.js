@@ -5,6 +5,7 @@ const Doctor = require("../models/doctorModel")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const authenticationMiddleware = ("../middlewares/authenticationMiddleware")
+const Appointment = require("../models/appointmentModel")
 
 router.post("/registration", async (req, res) => {
     try {
@@ -79,7 +80,7 @@ router.post("/doctor-account", authenticationMiddleware, async (req, res) => {
                 doctorId: newdoctor._id,
                 name: newdoctor.firstName + " " + newdoctor.lastName
             },
-            onClickPath: "/admin/doctors"
+            onClickPath: "/admin/doctorslist"
         })
         await User.findByIdAndUpdate(adminUser._id, { unseenNotifications })
         res.status(200).send({ message: "Doctor account created successfully", success: true })
@@ -120,6 +121,36 @@ router.post("/delete-notifications", authenticationMiddleware, async (req, res) 
         res.status(500).send({ message: "Error applyng doctor account", success: false, error })
     }
 })
+
+router.get("/get-all-approved-doctors", authenticationMiddleware, async (req, res) => {
+    try {
+        const doctors = await Doctor.find({status: "approved"});
+        res.status(200).send({ message: "Doctors fetched successfully", success: true, data: doctors, })
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: "Error applying doctor account", success: false, error, });
+    }
+});
+
+router.post("/book-appointment", authenticationMiddleware, async (req, res) => {
+    try {
+        req.body.status ="pending"
+        const newAppointment = new Appointment(req.body)
+        await newAppointment.save()
+        //pushing notification to doctor based on his user id
+        const user = await User.findOne({_id: req.body.doctorInfo.userId})
+        user.unseenNotifications.push({
+            type: "new-appointment-request",
+            message: `A new appointment request has been made by ${req.body.userInfo.name}`,
+            onClickPath: "/doctor/appointments"
+        })
+        await user.save()
+        res.status(200).send({message: "Äppointment book successfully", success: true})
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: "Error booking appointment", success: false, error, });
+    }
+});
 
 
 module.exports = router

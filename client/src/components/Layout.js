@@ -33,6 +33,25 @@ function Layout({ children }) {
 
     ]
 
+    const doctorMenu = [
+        {
+            menuName: "Home",
+            path: "/",
+            menuIcon: "ri-home-4-line"
+        },
+        {
+            menuName: "Appointments",
+            path: "/appointments",
+            menuIcon: "ri-file-list-3-line"
+        },
+        {
+            menuName: "Profile",
+            path: `/doctor/profile/${user?._id}`,
+            menuIcon: "ri-user-line"
+        },
+    ]
+    
+
     const adminMenu = [
         {
             menuName: "Home",
@@ -56,7 +75,8 @@ function Layout({ children }) {
         },
     ]
 
-    const menuToBeRendered = user?.isAdmin ? adminMenu : userMenu
+    const menuToBeRendered = user?.isAdmin ? adminMenu : user?.isDoctor ? doctorMenu: userMenu
+    const role = user?.isAdmin ? "Admin" : user?.isDoctor ? "Doctor" : "User"
 
     return (
         <div className="main-layout">
@@ -64,6 +84,7 @@ function Layout({ children }) {
                 <div className="sidebar">
                     <div className="sidebar-header">
                         <h1 className="logo">LOGO</h1>
+                        <h1 className="role">{role}</h1>
                     </div>
                     <div className="menu">
                         {menuToBeRendered.map((menu) => {
