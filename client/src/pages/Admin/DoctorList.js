@@ -7,7 +7,7 @@ import { Table } from "antd"
 import {toast} from "react-hot-toast"
 
 function DoctorList() {
-    const { doctors, setDoctors } = useState([])
+    const [doctors, setDoctors] = useState([])
     const dispatch = useDispatch()
     const getDoctorsData = async () => {
         try {
@@ -63,7 +63,8 @@ function DoctorList() {
         },
         {
             title: "Created At",
-            dataIndex: "createdAt"
+            dataIndex: "createdAt",
+            render: (record, text) => moment(record.createdAt).format("DD-MM-YYYY")
         },
         {
             title: "Status",
@@ -83,6 +84,7 @@ function DoctorList() {
     return (
         <Layout>
             <h1 className="page-header">Doctors List</h1>
+            <hr />
             <Table columns={columns} dataSource={doctors} />
         </Layout>
     )

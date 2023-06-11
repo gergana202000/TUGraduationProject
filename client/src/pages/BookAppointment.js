@@ -10,7 +10,8 @@ import moment from "moment"
 import { DatePicker, TimePicker, Row, Col, Button } from "antd"
 
 function BookAppointment() {
-    const [isAvailabel, setIsAvailabel] = useState(false)
+    const navigate = useNavigate()
+    const [isAvailable, setIsAvailable] = useState(false)
     const [date, setDate] = useState()
     const [time, setTime] = useState()
     const { user } = useSelector((state) => state.user)
@@ -38,16 +39,13 @@ function BookAppointment() {
         }
     }
 
-    const bookNow = async () => {
+    const checkAvailability = async () => {
         try {
             dispatch(showLoading())
-            const response = await axios.post("/api/user/book-appointment",
+            const response = await axios.post("/api/user/check-booking-avilability",
                 {
                     doctorId: params.doctorId,
-                    userId: user._id,
-                    doctorInfo: doctor, 
-                    userInfo: user,
-                    date: date, 
+                    date: date,
                     time: time
                 },
                 {
@@ -58,9 +56,42 @@ function BookAppointment() {
             dispatch(hideLoading())
             if (response.data.success) {
                 toast.success(response.data.message)
+                setIsAvailable(true)
+            }
+            else {
+                toast.error(response.data.message)
             }
         } catch (error) {
             toast.error("Something went wrong")
+            dispatch(hideLoading())
+        }
+    }
+
+    const bookNow = async () => {
+        setIsAvailable(false)
+        try {
+            dispatch(showLoading())
+            const response = await axios.post("/api/user/book-appointment",
+                {
+                    doctorId: params.doctorId,
+                    userId: user._id,
+                    doctorInfo: doctor,
+                    userInfo: user,
+                    date: date,
+                    time: time
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+            dispatch(hideLoading())
+            if (response.data.success) {
+                toast.success(response.data.message)
+                navigate("/appointments")
+            }
+        } catch (error) {
+            toast.error("Something booking appointment")
             dispatch(hideLoading())
         }
     }
@@ -74,19 +105,30 @@ function BookAppointment() {
                 <div>
                     <h1 className="page-title">{doctor.firstName} {doctor.lastName}</h1>
                     <hr />
-                    <Row>
+                    <Row gutter={20} className='mt-5' align="middle">
                         <Col span={8} sm={24} xs={24} lg={8}>
                             <h1 className="normal-text"><b>Timing: {doctor.timings[0]} - {doctor.timings[1]}</b></h1>
-                            <div className='d-flex flex-column pt-2'>
-                                <DatePicker format="DD-MM-YY" onChange={(value)=>setDate(moment(value).format("DD-MM-YYYY"))} />
-                                <TimePicker format="HH:mm" className='mt-3' onChange={(value)=> {
-                                    setTime(
-                                        moment(value).format("HH:mm")
-                                    )
+                            <p><b>Phone: </b>{doctor.phone}</p>
+                            <p><b>Address: </b>{doctor.address}</p>
+                            <p><b>Fee Per Consultation: </b>{doctor.feePerConsultation}</p>
+                            <p><b>Website: </b>{doctor.website}</p>
+
+                            <div className='d-flex flex-column pt-2 mt-2'>
+                                <DatePicker format="DD-MM-YY" onChange={(value) => {
+                                    setDate(moment(value).format("DD-MM-YYYY"))
+                                    setIsAvailable(false)
                                 }} />
-                                <Button className='primary-button mt-3 full-width-button'>Check Availability</Button>
-                                <Button className='primary-button mt-3 full-width-button' onClick={bookNow}>Book Now</Button>
+                                <TimePicker format="HH:mm" className='mt-3' onChange={(value) => {
+                                    setIsAvailable(false)
+                                    setTime(moment(value).format("HH:mm"))
+                                }} />
+                                {!isAvailable && <Button className='primary-button mt-3 full-width-button' onClick={checkAvailability}>Check Availability</Button>}
+                                {isAvailable && (<Button className='primary-button mt-3 full-width-button' onClick={bookNow}>Book Now</Button>)}
                             </div>
+                        </Col>
+
+                        <Col span={8} sm={24} xs={24} lg={8}>
+                            <img src='https://img.freepik.com/free-vector/appointment-booking-with-calendar_52683-39658.jpg?w=826&t=st=1686510783~exp=1686511383~hmac=fd8a0c11257af6adf404031da99b1ae34fe8c1c30671a59a6014a981d64b125a' width="100%" height="400" />
                         </Col>
                     </Row>
                 </div>

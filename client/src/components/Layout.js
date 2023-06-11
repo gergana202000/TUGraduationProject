@@ -24,13 +24,7 @@ function Layout({ children }) {
             menuName: "Apply Doctor",
             path: "/apply-doctor",
             menuIcon: "ri-home-heart-line"
-        },
-        {
-            menuName: "Profile",
-            path: "/apply-doctor",
-            menuIcon: "ri-user-line"
-        },
-
+        }
     ]
 
     const doctorMenu = [
@@ -41,7 +35,7 @@ function Layout({ children }) {
         },
         {
             menuName: "Appointments",
-            path: "/appointments",
+            path: "/doctor/appointments",
             menuIcon: "ri-file-list-3-line"
         },
         {
