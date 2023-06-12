@@ -62,7 +62,7 @@ function BookAppointment() {
                 toast.error(response.data.message)
             }
         } catch (error) {
-            toast.error("Something went wrong")
+            toast.error("Error booking appointment")
             dispatch(hideLoading())
         }
     }

@@ -1,9 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const User = require("../models/userModel")
-const Doctor = require("../models/doctorModel")
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
+const express = require("express");
+const router = express.Router();
+const User = require("../models/userModel");
+const Doctor = require("../models/doctorModel");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const authenticationMiddleware = ("../middlewares/authenticationMiddleware")
 const Appointment = require("../models/appointmentModel")
 const moment = require("moment")
@@ -81,7 +81,7 @@ router.post("/doctor-account", authenticationMiddleware, async (req, res) => {
                 doctorId: newdoctor._id,
                 name: newdoctor.firstName + " " + newdoctor.lastName
             },
-            onClickPath: "/admin/doctorslist"
+            onClickPath: "/admin/doctorlist"
         })
         await User.findByIdAndUpdate(adminUser._id, { unseenNotifications })
         res.status(200).send({ message: "Doctor account created successfully", success: true })
@@ -93,13 +93,13 @@ router.post("/doctor-account", authenticationMiddleware, async (req, res) => {
 
 router.post("/mark-notifications-as-seen", authenticationMiddleware, async (req, res) => {
     try {
-        const { user } = await User.findOne({ _id: req.body.userId })
+        const user = await User.findOne({ _id: req.body.userId })
         const unseenNotifications = user.unseenNotifications
         const seenNotifications = user.seenNotifications
         seenNotifications.push(...unseenNotifications)
-        user.seenNotifications = unseenNotifications
         user.unseenNotifications = []
-        user.seenNotifications = seenNotifications 
+        // user.seenNotifications = unseenNotifications
+        user.seenNotifications = seenNotifications
         const updatedUser = await user.save()
         updatedUser.password = undefined
         res.status(200).send({ message: "All notifications marked as seen", success: true, data: updatedUser })
@@ -111,7 +111,7 @@ router.post("/mark-notifications-as-seen", authenticationMiddleware, async (req,
 
 router.post("/delete-notifications", authenticationMiddleware, async (req, res) => {
     try {
-        const { user } = await User.findOne({ _id: req.body.userId })
+        const user = await User.findOne({ _id: req.body.userId })
         user.seenNotifications = []
         user.unseenNotifications = []
         const updatedUser = await user.save()
@@ -125,7 +125,7 @@ router.post("/delete-notifications", authenticationMiddleware, async (req, res) 
 
 router.get("/get-all-approved-doctors", authenticationMiddleware, async (req, res) => {
     try {
-        const doctors = await Doctor.find({status: "approved"});
+        const doctors = await Doctor.find({ status: "approved" });
         res.status(200).send({ message: "Doctors fetched successfully", success: true, data: doctors, })
     } catch (error) {
         console.log(error);
@@ -135,20 +135,20 @@ router.get("/get-all-approved-doctors", authenticationMiddleware, async (req, re
 
 router.post("/book-appointment", authenticationMiddleware, async (req, res) => {
     try {
-        req.body.status ="pending"
+        req.body.status = "pending"
         req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString()
         req.body.time = moment(req.body.time, "HH:mm").toISOString()
         const newAppointment = new Appointment(req.body)
         await newAppointment.save()
         //pushing notification to doctor based on his user id
-        const user = await User.findOne({_id: req.body.doctorInfo.userId})
+        const user = await User.findOne({ _id: req.body.doctorInfo.userId })
         user.unseenNotifications.push({
             type: "new-appointment-request",
             message: `A new appointment request has been made by ${req.body.userInfo.name}`,
             onClickPath: "/doctor/appointments"
         })
         await user.save()
-        res.status(200).send({message: "Äppointment book successfully", success: true})
+        res.status(200).send({ message: "Appointment book successfully", success: true })
     } catch (error) {
         console.log(error);
         res.status(500).send({ message: "Error booking appointment", success: false, error, });
@@ -158,22 +158,20 @@ router.post("/book-appointment", authenticationMiddleware, async (req, res) => {
 router.post("/check-booking-avilability", authenticationMiddleware, async (req, res) => {
     try {
         const date = moment(req.body.date, "DD-MM-YYYY").toISOString()
-        const fromTime = moment(req.body,time, "HH:mm").subtract(1, "hours").toISOString()
-        const toTime = moment(req.body,time, "HH:mm").add(1, "hours").toISOString()
+        const fromTime = moment(req.body.time, "HH:mm").subtract(1, "hours").toISOString()
+        const toTime = moment(req.body.time, "HH:mm").add(1, "hours").toISOString()
         const doctorId = req.body.doctorId
         const appointments = await Appointment.find({
-            doctorId, 
+            doctorId,
             date,
-            time: {$gte: fromTime, $lte: toTime},
+            time: { $gte: fromTime, $lte: toTime },
         })
-        if(appointments.length > 0){
-            return res.status(200).send({message: "Appointments not available", success: false})
+        if (appointments.length > 0) {
+            return res.status(200).send({ message: "Appointments not available", success: false })
         }
-        else{
-            return res.status(200).send({message: "Appointments available", success: true})
+        else {
+            return res.status(200).send({ message: "Appointments available", success: true })
         }
-        await user.save()
-        res.status(200).send({message: "Äppointment book successfully", success: true})
     } catch (error) {
         console.log(error);
         res.status(500).send({ message: "Error booking appointment", success: false, error, });
@@ -182,7 +180,7 @@ router.post("/check-booking-avilability", authenticationMiddleware, async (req, 
 
 router.get("/get-appointments-by-user-id", authenticationMiddleware, async (req, res) => {
     try {
-        const appointments = await Appointment.find({userId: req.body.userId});
+        const appointments = await Appointment.find({ userId: req.body.userId });
         res.status(200).send({ message: "Appointments fetched successfully", success: true, data: appointments, })
     } catch (error) {
         console.log(error);
@@ -190,13 +188,4 @@ router.get("/get-appointments-by-user-id", authenticationMiddleware, async (req,
     }
 });
 
-router.get("/get-appointments-by-doctor-id", authenticationMiddleware, async (req, res) => {
-    try {
-        const appointments = await Appointment.find({userId: req.body.userId});
-        res.status(200).send({ message: "Appointments fetched successfully", success: true, data: appointments, })
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({ message: "Error fetching appointments", success: false, error, });
-    }
-});
 module.exports = router

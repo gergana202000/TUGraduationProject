@@ -4,11 +4,11 @@ import { useDispatch } from "react-redux"
 import {showLoading, hideLoading} from "../../redux/alertsSlice"
 import axios from "axios"
 import {Table} from "antd"
-import moment from ("moment")
+import moment from "moment"
 
 function UserList(){
-    const {users, setUsers} = useState([]) 
-    const dispatch = useDispatch
+    const [users, setUsers] = useState([]) 
+    const dispatch = useDispatch()
     const getUsersData= async () =>{
         try {
             dispatch(showLoading())
@@ -48,11 +48,11 @@ function UserList(){
         {
             title: "Actions",
             dataIndex: "actions", 
-            render: (text, record) =>{
+            render: (text, record) => (
                 <div className="d-flex">
                     <h1 className="anchor">Block</h1>
                 </div>
-            }
+            )
         },
     ]
 

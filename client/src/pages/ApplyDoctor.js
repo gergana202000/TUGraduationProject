@@ -1,4 +1,4 @@
-import Raect from "react"
+import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { hideLoading, showLoading } from "../redux/alertsSlice"
@@ -11,7 +11,7 @@ import moment from "moment"
 
 function ApplyDoctor() {
     const dispatch = useDispatch()
-    const { user } = useSelector(state => state.user)
+    const { user } = useSelector((state) => state.user)
     const navigate = useNavigate()
     const onFinish = async (values) => {
         try {
@@ -25,7 +25,7 @@ function ApplyDoctor() {
                 ]
             }, {
                 headers: {
-                    Authprization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             })
             dispatch(hideLoading())

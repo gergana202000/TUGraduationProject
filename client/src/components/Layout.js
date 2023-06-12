@@ -104,7 +104,7 @@ function Layout({ children }) {
                     <div className="header">
                         {collapsed ? (<i className="ri-menu-line header-icons" onClick={() => setCollapsed(false)}></i>) : (<i className="ri-close-line icons header-icons" onClick={() => setCollapsed(true)}></i>)}
                         <div className="d-flex align-items-center px-4">
-                            <Badge count={user?.unseenNotification} onClick={() => navigate("/notifications")}>
+                            <Badge count={user?.unseenNotification.lenght} onClick={() => navigate("/notifications")}>
                                 <i className="ri-notification-4-line header-icons px-3"></i>
                             </Badge>
 

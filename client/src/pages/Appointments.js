@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux"
 import { showLoading, hideLoading } from "../redux/alertsSlice"
 import axios from "axios"
 import { Table } from "antd"
-import { toast } from "react-hot-toast"
+import moment from "moment"
 
 function Appointments() {
     const [appointments, setAppointments] = useState([])

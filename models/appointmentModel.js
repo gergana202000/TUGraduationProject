@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose")
 const appointmentSchema = new mongoose.Schema({
     userId: {
         type: String,
@@ -17,11 +17,11 @@ const appointmentSchema = new mongoose.Schema({
         required: true
     },
     date: {
-        type: Object,
+        type: String,
         required: true
     },
     time: {
-        type: Array,
+        type: String,
         required: true
     },
     status: {

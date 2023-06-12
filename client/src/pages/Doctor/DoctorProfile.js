@@ -44,7 +44,7 @@ function DoctorProfile(){
         }
     }
 
-    const getDoctorData=async()=> {
+    const getDoctorData=async () => {
         try {
             dispatch(showLoading())
             const response = await axios.post("/api/doctor/get-doctor-info-by-user-id",

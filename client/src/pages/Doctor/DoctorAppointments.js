@@ -5,6 +5,7 @@ import { showLoading, hideLoading } from "../../redux/alertsSlice"
 import axios from "axios"
 import { Table } from "antd"
 import { toast } from "react-hot-toast"
+import moment from "moment"
 
 function DoctorAppointments() {
     const [appointments, setAppointments] = useState([])
@@ -31,7 +32,7 @@ function DoctorAppointments() {
     const changeAppointmentStatus = async (record, status) => {
         try {
             dispatch(showLoading())
-            const response = await axios.post("/api/doctor/change-appointment-status", { appointmentId: record._id, status: status,}, {
+            const response = await axios.post("/api/doctor/change-appointment-status", { appointmentId: record._id, status: status, }, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
@@ -42,7 +43,7 @@ function DoctorAppointments() {
                 getAppointmentsData()
             }
         } catch (error) {
-            toast.error("Something went wrong")
+            toast.error("Error changing doctor account status")
             dispatch(hideLoading())
         }
     }
@@ -69,7 +70,10 @@ function DoctorAppointments() {
             title: "Date & Time",
             dataIndex: "createdAt",
             render: (text, record) => (
-                <span>{moment(record.date).format("DD-MM-YYYY")} {moment(record.time).format("HH:mm")}</span>
+                <span>
+                    {moment(record.date).format("DD-MM-YYYY")}{" "}
+                    {moment(record.time).format("HH:mm")}
+                </span>
             )
         },
         {
@@ -79,15 +83,15 @@ function DoctorAppointments() {
         {
             title: "Actions",
             dataIndex: "actions",
-            render: (text, record) => {
+            render: (text, record) => (
                 <div className="d-flex">
                     {record.status === "pending" && (
-                        <div className="d-flex"><h1 className="anchor" onClick={() => changeAppointmentStatus(record, "approved")}>Approve</h1>
+                        <div className="d-flex"><h1 className="anchor px-2" onClick={() => changeAppointmentStatus(record, "approved")}>Approve</h1>
                             <h1 className="anchor px-2" onClick={() => changeAppointmentStatus(record, "rejected")}>Reject</h1>
                         </div>)}
 
                 </div>
-            }
+            )
         },
     ]
 

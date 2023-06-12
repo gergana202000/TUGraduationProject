@@ -1,5 +1,5 @@
 const express = require("express")
-const router = express.Router
+const router = express.Router()
 const User = require("../models/userModel")
 const Doctor = require("../models/doctorModel")
 
@@ -27,7 +27,7 @@ router.get("/get-all-users", authenticationMiddleware, async (req, res) => {
 
 router.post("/change-doctor-status", authenticationMiddleware, async (req, res) => {
     try {
-        const { doctorId, status, userId } = req.body
+        const { doctorId, status } = req.body
         const doctor = await Doctor.findByIdAndUpdate(doctorId, {
             status,
         })
@@ -40,8 +40,6 @@ router.post("/change-doctor-status", authenticationMiddleware, async (req, res) 
         })
         user.isDoctor = status === "approved" ? true : false
         await user.save()
-
-        const doctors = await Doctor.find({})
 
         res.status(200).send({ message: "Doctor status updated successfully", success: true, data: doctor })
     } catch (error) {

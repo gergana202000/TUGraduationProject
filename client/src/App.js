@@ -1,13 +1,11 @@
 import React from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-
 import Login from "./pages/Login"
 import Registration from "./pages/Registration"
 import ApplyDoctor from "./pages/ApplyDoctor"
 import UserList from "./pages/Admin/UserList"
 import DoctorList from "./pages/Admin/DoctorList"
 import Home from "./pages/Home"
-import { Button } from 'antd'
 import { Toaster } from "react-hot-toast"
 import { useSelector } from "react-redux"
 import ProtectedRoute from "./components/ProtectedRoute"
@@ -18,17 +16,15 @@ import DoctorAppointments from "./pages/Doctor/DoctorAppointments"
 import BookAppointment from "./pages/BookAppointment"
 import Appointments from "./pages/Appointments"
 function App() {
-  const {loading} = useSelector(state => state.alerts)
+  const { loading } = useSelector((state) => state.alerts)
   return (
     <BrowserRouter>
       {loading && (
         <div className="spinner">
-        <div class="spinner-border" role="status">
-          
+          <div class="spinner-border" role="status"></div>
         </div>
-      </div>
       )}
-      <Toaster position="top-center" reverseOrder="false" /> 
+      <Toaster position="top-center" reverseOrder={false} />
       <Routes>
         <Route path='/login' element={<PublicRoute><Login /></PublicRoute>} />
         <Route path='/registration' element={<PublicRoute><Registration /></PublicRoute>} />
