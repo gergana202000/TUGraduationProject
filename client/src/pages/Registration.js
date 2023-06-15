@@ -41,9 +41,6 @@ function Registration() {
                     <Form.Item label="Password" name="password">
                         <Input placeholder="Password" type="password" />
                     </Form.Item>
-                    {/* <Form.Item label="Confirm Password" name="passwordConf">
-                        <Input placeholder="Confirm Password" type="password" />
-                    </Form.Item> */}
                     <Button className='primary-button my-2 full-width-button' htmlType='sumbit'>REGISTRATION</Button>
 
                     <Link to="/login" className='anchor mt-2'>SIGN IN</Link>

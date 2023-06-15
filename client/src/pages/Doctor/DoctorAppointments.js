@@ -64,7 +64,7 @@ function DoctorAppointments() {
             title: "Phone",
             dataIndex: "phone",
             render: (text, record) =>
-                <span>{record.userInfo.phone} </span>
+                <span>{record.doctorInfo.phone} </span>
         },
         {
             title: "Date & Time",

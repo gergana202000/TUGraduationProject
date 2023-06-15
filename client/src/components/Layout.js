@@ -1,4 +1,4 @@
-import { React, useState } from "react"
+import React, { useState } from "react"
 import "../layout.css"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
@@ -64,7 +64,7 @@ function Layout({ children }) {
         },
         {
             menuName: "Profile",
-            path: "/apply-doctor",
+            path: "/doctor-profile",
             menuIcon: "ri-user-line"
         },
     ]
@@ -77,14 +77,17 @@ function Layout({ children }) {
             <div className="d-flex layout">
                 <div className="sidebar">
                     <div className="sidebar-header">
-                        <h1 className="logo">LOGO</h1>
+                        {/* <h1 className="logo">LOGO</h1> */}
+                        <div className="logo">
+                            <img src="med_connect_r.png"/>
+                        </div>
                         <h1 className="role">{role}</h1>
                     </div>
                     <div className="menu">
                         {menuToBeRendered.map((menu) => {
                             const isActive = location.pathname === menu.path
                             return (
-                                <div className={`d-flex menu-item ${isActive && 'active-menu-item'}`}>
+                                <div className={`d-flex menu-item ${isActive && "active-menu-item"}`}>
                                     <i className={menu.menuIcon}></i>
                                     {!collapsed && <Link to={menu.path}>{menu.menuName}</Link>}
                                 </div>
@@ -104,14 +107,14 @@ function Layout({ children }) {
                     <div className="header">
                         {collapsed ? (<i className="ri-menu-line header-icons" onClick={() => setCollapsed(false)}></i>) : (<i className="ri-close-line icons header-icons" onClick={() => setCollapsed(true)}></i>)}
                         <div className="d-flex align-items-center px-4">
-                            <Badge count={user?.unseenNotification.lenght} onClick={() => navigate("/notifications")}>
+                            <Badge count={user?.unseenNotifications.length} onClick={() => navigate("/notifications")}>
                                 <i className="ri-notification-4-line header-icons px-3"></i>
                             </Badge>
 
                             <Link className="anchor mx-2" to="/profile">{user?.name}</Link>
                         </div>
                     </div>
-                    <div className="content">
+                    <div className="body">
                         {children}
                     </div>
                 </div>

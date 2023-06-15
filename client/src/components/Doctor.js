@@ -8,7 +8,7 @@ function Doctor({doctor}){
             <h1 className="card-title">{doctor.firstName} {doctor.lastName}</h1><hr/>
             <p><b>Phone: </b>{doctor.phone}</p>
             <p><b>Address: </b>{doctor.address}</p>
-            <p><b>Fee Per Consultation: </b>{doctor.feePerConsultation}</p>
+            <p><b>Fee Per Consultation: </b>{doctor.feePerConsult}</p>
             <p><b>Timing: </b>{doctor.timing[0]} - {doctor.timing[1]}</p>
         </div>
     )

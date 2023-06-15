@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../components/Layout'
-import DoctorForm from '../components/DoctorForm'
+import { DatePicker, TimePicker, Row, Col, Button } from "antd"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { hideLoading, showLoading } from "../redux/alertsSlice"
 import { toast } from "react-hot-toast"
 import axios from "axios"
 import moment from "moment"
-import { DatePicker, TimePicker, Row, Col, Button } from "antd"
+
 
 function BookAppointment() {
-    const navigate = useNavigate()
     const [isAvailable, setIsAvailable] = useState(false)
+    const navigate = useNavigate()
     const [date, setDate] = useState()
     const [time, setTime] = useState()
     const { user } = useSelector((state) => state.user)
@@ -35,6 +35,7 @@ function BookAppointment() {
                 setDoctor(response.data.data)
             }
         } catch (error) {
+            console.log(error)
             dispatch(hideLoading())
         }
     }
@@ -110,7 +111,7 @@ function BookAppointment() {
                             <h1 className="normal-text"><b>Timing: {doctor.timings[0]} - {doctor.timings[1]}</b></h1>
                             <p><b>Phone: </b>{doctor.phone}</p>
                             <p><b>Address: </b>{doctor.address}</p>
-                            <p><b>Fee Per Consultation: </b>{doctor.feePerConsultation}</p>
+                            <p><b>Fee Per Consultation: </b>{doctor.feePerConsult}</p>
                             <p><b>Website: </b>{doctor.website}</p>
 
                             <div className='d-flex flex-column pt-2 mt-2'>

@@ -3,15 +3,16 @@
     height: 100vh;
 }
 
-.logo {
-    color: #ede8fa;
-    font-weight: bold;
+.logo img{
+    width: 220px;
+    height: 310px;
 }
 
-.role{
+.role {
     color: #ede8fa;
-    font-size: 14px;
+    font-size: 18px;
     margin-top: -20px;
+    font-weight: bold;
 }
 
 .sidebar {
@@ -49,7 +50,7 @@
     justify-content: space-between;
 }
 
-.content {
+.body {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 2px grey;
@@ -97,7 +98,7 @@
     padding-left: 10px;
 }
 
-.ant-scroll-number-only-unit{
+.ant-scroll-number-only-unit {
     padding-right: -10px !important;
     padding-bottom: -10px !important;
 }

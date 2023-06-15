@@ -27,7 +27,7 @@ function DoctorProfile(){
                 ]
             }, {
                 headers: {
-                    Authprization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             })
             dispatch(hideLoading())
@@ -61,6 +61,7 @@ function DoctorProfile(){
                 setDoctor(response.data.data)
             }
         } catch (error) {
+            console.log(error)
             dispatch(hideLoading())
         }
     }
